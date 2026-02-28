@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conversor de monedas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Conversor de monedas</h1>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <form id="fx-form" autocomplete="off">
+          <div class="row">
+            <label class="field">
+              <span>Monto</span>
+              <input
+                id="amount"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                value=""
+              />
+            </label>
+
+            <label class="field">
+              <span>Desde</span>
+              <select id="from">
+                <!-- Fijo en HTML -->
+                <option value="USD" selected>USD — Dólar estadounidense</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="COP">COP — Peso colombiano</option>
+                <option value="MXN">MXN — Peso mexicano</option>
+                <option value="ARS">ARS — Peso argentino</option>
+                <option value="BRL">BRL — Real brasileño</option>
+                <option value="GBP">GBP — Libra esterlina</option>
+                <option value="JPY">JPY — Yen japonés</option>
+              </select>
+            </label>
+
+            <button
+              id="swap"
+              type="button"
+              class="btn icon"
+              title="Intercambiar"
+            >
+              ⇄
+            </button>
+
+            <label class="field">
+              <span>Hacia</span>
+              <select id="to">
+                <option value="COP" selected>COP — Peso colombiano</option>
+                <option value="USD">USD — Dólar estadounidense</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="MXN">MXN — Peso mexicano</option>
+                <option value="ARS">ARS — Peso argentino</option>
+                <option value="BRL">BRL — Real brasileño</option>
+                <option value="GBP">GBP — Libra esterlina</option>
+                <option value="JPY">JPY — Yen japonés</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="row">
+            <label class="field small">
+              <span>Decimales</span>
+              <input id="decimals" type="number" min="0" max="6" value="2" />
+            </label>
+
+            <div class="rate box" aria-live="polite">
+              <span class="muted">Tasa aplicada:</span>
+              <strong id="rate">—</strong>
+            </div>
+
+            <button id="convert" type="button" class="btn primary">
+              Convertir
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card result">
+        <p class="muted">Resultado</p>
+        <div class="result-line">
+          <span id="from-amount">—</span>
+          <span class="arrow">→</span>
+          <span id="to-amount" class="highlight">—</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

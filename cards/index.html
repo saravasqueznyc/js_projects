@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flashcard — Simple One-Card Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Optional: hook up your stylesheet later -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Flashcard</h1>
+      <p class="subtitle">
+        One card at a time. Mark known, navigate, shuffle, and track progress.
+      </p>
+    </header>
+
+    <main id="app" aria-live="polite">
+      <!-- Card area (only ONE visible card) -->
+      <section id="viewer" aria-labelledby="viewer-title">
+        <h2 id="viewer-title" class="sr-only">Card Viewer</h2>
+
+        <!-- The single card; add/remove the class "known" to tint greenish -->
+        <article
+          id="card"
+          class="card"
+          aria-roledescription="flashcard"
+          tabindex="0"
+          aria-describedby="card-status"
+        >
+          <div class="card-body">
+            <h3 id="card-title" class="card-title">Q1</h3>
+            <p id="card-text" class="card-text">
+              This is the current card content.
+            </p>
+          </div>
+          <div id="card-status" class="sr-only">Unknown</div>
+        </article>
+      </section>
+
+      <!-- Controls -->
+      <section id="controls" class="controls" aria-label="Controls">
+        <div class="controls-row">
+          <button id="btn-prev" type="button" aria-label="Previous card">
+            Prev
+          </button>
+          <button id="btn-next" type="button" aria-label="Next card">
+            Next
+          </button>
+          <button id="btn-shuffle" type="button" aria-label="Shuffle deck">
+            Shuffle
+          </button>
+          <button
+            id="btn-known"
+            type="button"
+            aria-pressed="false"
+            aria-label="Mark known"
+          >
+            Mark Known
+          </button>
+          <button id="btn-reset" type="button">Reset</button>
+        </div>
+      </section>
+
+      <!-- Score / Progress -->
+      <section id="score" class="score" aria-label="Progress">
+        <p class="metric">
+          <strong>Card:</strong> <span id="stat-index">1</span>/<span
+            id="stat-total"
+            >10</span
+          >
+        </p>
+        <p class="metric">
+          <strong>Known:</strong> <span id="stat-known">0</span>
+        </p>
+        <div id="message" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <!-- Optional: hook up your script later -->
+    <script src="script.js"></script>
+  </body>
+</html>

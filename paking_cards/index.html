@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Packing List</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <header class="header">
+        <h1>Packing List</h1>
+        <p class="subtitle">
+          Add items, mark them packed, edit, delete, filter, search.
+        </p>
+      </header>
+
+      <form id="addForm" class="card">
+        <label class="label" for="itemInput">New item</label>
+        <div class="row">
+          <input
+            id="itemInput"
+            type="text"
+            placeholder="e.g. socks, charger, passport"
+            autocomplete="off"
+          />
+          <button type="submit" id="addBtn">Add</button>
+        </div>
+        <p class="hint">Tip: Press Enter to add quickly.</p>
+      </form>
+
+      <section class="controls card">
+        <div class="control">
+          <label class="label" for="filterSelect">Filter</label>
+          <select id="filterSelect">
+            <option value="all">All</option>
+            <option value="unpacked">Unpacked</option>
+            <option value="packed">Packed</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label class="label" for="searchInput">Search</label>
+          <input id="searchInput" type="text" placeholder="type to search..." />
+        </div>
+
+        <div class="control actions">
+          <button id="clearPackedBtn" type="button">Clear Packed</button>
+          <button id="clearAllBtn" type="button" class="danger">
+            Clear All
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <ul id="list" class="list"></ul>
+        <p id="emptyState" class="empty">No items yet. Add your first one 👆</p>
+      </section>
+
+      <footer class="footer">
+        <p id="stats"></p>
+      </footer>
+    </main>
+
+    <script src="solution.js"></script>
+  </body>
+</html>
+
+
