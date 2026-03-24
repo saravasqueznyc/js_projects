@@ -1,0 +1,17 @@
+{
+  "name": "library-manager-solution",
+  "version": "1.0.0",
+  "description": "Library Manager Educational Project (Professor Version)",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js"
+  },
+  "keywords": [
+    "education",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC"
+}

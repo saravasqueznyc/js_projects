@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Manager - Edu Edition</title>
+  <!-- Link al CSS Servido por nuestro servidor Node estáticamente -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- ENCABEZADO -->
+  <header class="main-header">
+    <div class="header-container">
+      <h1>📚 Library Manager</h1>
+      <nav>
+        <button id="btn-stats" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+          Mi Actividad
+        </button>
+        <button id="btn-toggle-form" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Agregar Ítem
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <!-- ÁREA DE CATEGORÍAS -->
+    <aside class="sidebar">
+      <h2>Explorar</h2>
+      <div id="categories-container" class="categories-container">
+        <!-- Generado dinámicamente con JS -->
+      </div>
+    </aside>
+
+    <div class="content-area">
+      <!-- FORMULARIO DE AGREGAR LIBRO (Oculto por defecto) -->
+      <section id="add-form-section" class="form-section hidden">
+        <h2>Ingresar Nuevo Material</h2>
+        <form id="add-item-form" class="card">
+          <div class="form-group">
+            <label for="itemType">Tipo:</label>
+            <select id="itemType" required>
+              <option value="book">Libro</option>
+              <option value="magazine">Revista</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" id="title" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="author">Autor/Editorial:</label>
+            <input type="text" id="author" required>
+          </div>
+
+          <div class="form-group">
+            <label for="year">Año de Publicación:</label>
+            <input type="number" id="year" required>
+          </div>
+
+          <!-- Campos específicos según tipo -->
+          <div class="form-group" id="group-pages">
+            <label for="pages">Páginas (Solo libros):</label>
+            <input type="number" id="pages">
+          </div>
+          
+          <div class="form-group hidden" id="group-issue">
+            <label for="issueNumber">Nº Edición (Solo revistas):</label>
+            <input type="number" id="issueNumber">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Guardar</button>
+            <button type="button" id="btn-cancel-form" class="btn-secondary">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- BÚSQUEDA EXTERNA -->
+      <section class="search-section card">
+        <div class="search-header">
+          <h2>Descubrir en Open Library</h2>
+          <span class="search-badge">Global</span>
+        </div>
+        <div class="form-group search-box">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="external-search-input" placeholder="Ej: Harry Potter, Javascript...">
+        </div>
+        <ul id="external-search-results" class="search-results">
+        </ul>
+      </section>
+
+      <!-- LISTA DE LIBROS LOCALES -->
+      <section class="library-section">
+        <div class="section-header">
+          <h2>Mi Biblioteca</h2>
+          <div class="filters">
+            <label for="filter-status">Ver:</label>
+            <!-- Esto nos servirá para enseñar 'switch' en el JS -->
+            <select id="filter-status">
+              <option value="ALL">Todos</option>
+              <option value="AVAILABLE">Disponibles</option>
+              <option value="BORROWED">Prestados</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="books-grid" class="books-grid">
+          <!-- Las tarjetas de libros se generarán aquí -->
+          <p class="loading">Cargando biblioteca...</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- MODAL DE DETALLES (Se usará for...in para iterar propiedades) -->
+  <div id="details-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" id="close-modal">&times;</span>
+      <h2>Detalles Completos</h2>
+      <div id="modal-body" class="props-list">
+        <!-- Llenado dinámicamente con for...in -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE ESTADÍSTICAS -->
+  <div id="stats-modal" class="modal hidden">
+    <div class="modal-content stats-content">
+      <span class="close-btn" id="close-stats-modal">&times;</span>
+      <div class="stats-header">
+        <div class="stats-icon">📊</div>
+        <h2>Resumen de Actividad</h2>
+      </div>
+      <div class="stats-grid" id="stats-body">
+         <!-- Rellenado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor para notificaciones Toast -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- APP ENTRY POINT -->
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
+
