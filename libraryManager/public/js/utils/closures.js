@@ -28,3 +28,17 @@ export function createClickTracker(){
     return counter;
   }
 }
+
+export function debounce(fn, delay = 500){
+
+  let timer;
+
+  return function (...arg){
+
+    clearTimeout(timer)
+    timer = setTimeout(() =>{
+      fn.apply(this, arg);
+    }, delay);
+  }
+
+}

@@ -18,6 +18,8 @@ Suggested implementation order:
 4) Add edge-case handling and tests.
 */
 
+import { createNewBookHandler } from "../handlers/bookHandlers.js";
+
 export function setupFormUI(){
 
   const openBtn = document.getElementById("btn-toggle-form");

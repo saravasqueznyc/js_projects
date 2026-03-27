@@ -21,6 +21,10 @@ Suggested implementation order:
 */
 
 import { $, clearHTML } from"../utils/domHelpers.js"
+import { bookApi } from "../services/bookApi.js";
+import { renderBooks } from "./renderBooks.js";
+import { showToast } from "./notifications.js";
+import { store } from "../state/store.js";
   //renderBookDetails(item), renderExternalBookDetails(book), 
 
 
@@ -41,9 +45,40 @@ export function renderExternalBookDetails(book){
       <p style="margin-bottom: 0.5rem; color: #0284c7;">¿Quieres añadir este libro a tu colección local?</p>
       <button id="btn-add-external" class="btn-primary" style="width: 100%;">Agregar a mi colección</button>
     </div>`
-  //TODO Saving logic
 
   modalBody.innerHTML = html;
+
+  const btnAdd = $("#btn-add-external")
+
+  btnAdd.addEventListener("click", async () =>{
+
+    try{    
+        btnAdd.disabled = true; 
+        btnAdd.textContent = "Saving...";
+
+        const dataBook = {
+          title: book.title,
+          author: book.author,
+          year: book.year || "unknown",
+          pages: book.pages || "unknown",
+          subjects: book.subjects || [],
+          type: "book"
+        }
+
+        const saveBook = await bookApi.createBook(dataBook)
+        store.getLibrary().addItemRaw(saveBook);
+
+        renderBooks(store.getLibrary().getItems());
+        showToast("Book saved succefully");
+        modal.classList.add("hidden");
+      }catch(error){
+        console.error(`Error saving the book, ${error}`);
+        showToast("Error saving the book");
+        btnAdd.disabled = false;
+        btnAdd.textContent = "Add to my collection";
+      }
+  });
+  
   modal.classList.remove("hidden");
 }
 

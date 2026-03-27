@@ -18,3 +18,39 @@ Suggested implementation order:
 4) Add edge-case handling and tests.
 */
 
+import fs from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.__dirname(__filename);
+const DATA_FILE_PATH = path.join(__dirname, "../data", "book.json");
+const topics = [
+  'Science Fiction', 'History', 'Art', 'Romance', 'Fantasy', 
+  'Business', 'Programming', 'Mystery', 'Biography', 'Science'
+];
+
+async function sseedDataBase(){
+
+  console.log("Getting the books");
+  let externalBooks = [];
+  
+  for(const topic of topics){
+    console.log(`Getting books about: ${topic}`);
+
+    try {
+      const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(topic)}&limit=15`
+
+      const result = await fetch(url);
+
+      if(!result.ok) throw new Error(`http eror: ${result.status}`);
+      const data = await result.json();
+      // const mapResult = data.map(item => {
+      //   title: item.title,
+      //   author: item.author_name ? item.author_name[0] : "unknown",
+      //   year: item.first_publish_year || "unknown",
+        
+
+      // })
+  }
+}

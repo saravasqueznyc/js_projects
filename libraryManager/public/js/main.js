@@ -20,128 +20,88 @@ Suggested implementation order:
 */
 
 import { renderBooks } from "./ui/renderBooks.js";
-import { Book } from "./models/Book.js";
 import { setUpModalClose } from "./ui/renderBookDetails.js";
+import { $ } from "./utils/domHelpers.js";
+import { createClickTracker } from "./utils/closures.js";
+import { initSidebarCategories } from "./ui/renderCategories.js";
+import { setupFormUI } from "./ui/formUI.js";
+import { filterHandler } from "./handlers/filterHandlers.js";
+import { externalSearch } from "./handlers/searchHandlers.js";
+import { store } from "./state/store.js";
+import { bookApi } from "./services/bookApi.js";
 
+async function setupStatsDashboard() {
+  
+  const btnClose = $("#close-stats-modal");
+  const btnStats = $("#btn-stats");
+  const modal = $("#stats-modal");
+  const modalBody = $("#stats-body");
 
-const books = [
-  {
-    "id": "1",
-    "title": "Clean Code",
-    "author": "Robert C. Martin",
-    "year": 2008,
-    "isBorrowed": false,
-    "type": "book",
-    "pages": 464
-  },
-  {
-    "id": "2",
-    "title": "JavaScript: The Good Parts",
-    "author": "Douglas Crockford",
-    "year": 2008,
-    "isBorrowed": true,
-    "type": "book",
-    "pages": 176
-  },
-  {
-    "id": "1772825235426",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "The Science Fiction Hall of Fame -- Volume One",
-    "author": "Robert Silverberg",
-    "year": 1970,
-    "pages": 322,
-    "subjects": []
-  },
-  {
-    "id": "1772825235438",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "Foundation",
-    "author": "Isaac Asimov",
-    "year": 1951,
-    "pages": 432,
-    "subjects": []
-  },
-  {
-    "id": "1772825235449",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "A Study of History",
-    "author": "Arnold J. Toynbee",
-    "year": 1900,
-    "pages": 471,
-    "subjects": []
-  },
-  {
-    "id": "1772825235462",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "The Enduring Vision",
-    "author": "Paul S. Boyer",
-    "year": 1987,
-    "pages": 352,
-    "subjects": []
-  },
-  {
-    "id": "1772825235655",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "Dell'Arte della Guerra",
-    "author": "Niccolò Machiavelli",
-    "year": 1540,
-    "pages": 144,
-    "subjects": []
-  },
-  {
-    "id": "1772825235665",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "The Art of Loving",
-    "author": "Erich Fromm",
-    "year": 1956,
-    "pages": 449,
-    "subjects": []
-  },
-  {
-    "id": "1772825235676",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "The Blithedale Romance",
-    "author": "Nathaniel Hawthorne",
-    "year": 1852,
-    "pages": 449,
-    "subjects": []
-  },
-  {
-    "id": "1772825235687",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "Flatland",
-    "author": "Edwin Abbott Abbott",
-    "year": 1884,
-    "pages": 264,
-    "subjects": []
-  },
-  {
-    "id": "1772905663272",
-    "isBorrowed": false,
-    "type": "book",
-    "title": "Labyrinths",
-    "author": "Jorge Luis Borges",
-    "year": 1962,
-    "pages": 157,
-    "subjects": []
-  }
-].map(item => {
-  return new Book(item);
-})
+  const activityTracker = createClickTracker();
+  window.__recordActivity = activityTracker;
 
-for(const book of books){
-  console.log(book)
+  btnStats.addEventListener("click", () =>{
+
+    const currentBooks = store.getLibrary().getItems();
+    const borrowBooks = currentBooks.filter(book => book.isBorrow).length;
+    const actionCount = window.__recordActivity ? window.__recordActivity(false) : 0;
+
+    modalBody.innerHTML = `
+      <div class="stat-box">
+        <span class="stat-value">${currentBooks.length}</span>
+        <span class="stat-label">Ítems Totales</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-value">${borrowed}</span>
+        <span class="stat-label">Prestados</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-value">${currentBooks.length - borrowed}</span>
+        <span class="stat-label">Disponibles</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-value">${actionsCount}</span>
+        <span class="stat-label">Niv. de Actividad</span>
+      </div>
+    `;
+
+    modal.classList.remove("hidden");
+  });
+
+  btnClose.addEventListener("click", () =>{
+    modal.classList.add("hidden");
+  });
+
+  window.addEventListener("click", (e) =>{
+    if(e.target === modal){
+      modal.classList.add("hidden");
+    }
+  });
 }
 
-renderBooks(books);
+async function initApp() {
+  
+  try {
 
-setUpModalClose();
+    const booksRawData = bookApi.getAllBooks();
+
+    store.getLibrary().setItems(booksRawData);
+
+    renderBooks(store.getLibrary().getItems());
+
+  }catch(error){
+    $("#books-grid").innerHTML = "<p style='color: red; font-weight: bold;'>Unable to conect with the local backend</p>"
+  }
+
+  setUpModalClose();
+  setupFormUI();
+  filterHandler();
+  externalSearch();
+  initSidebarCategories();
+  setupStatsDashboard();
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
+
+
 

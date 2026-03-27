@@ -18,3 +18,34 @@ Suggested implementation order:
 4) Add edge-case handling and tests.
 */
 
+import { $ } from "../utils/domHelpers.js";
+import { store } from "../state/store.js";
+import { renderBooks } from "../ui/renderBooks.js";
+
+export function filterHandler(){
+
+  const filter = $("#filter-status");
+
+  filter.addEventListener("change", (e) =>{
+    const selectFilter = e.target.value;
+
+    const books = store.getLibrary().getItems();
+
+    let filterBooks = [];
+
+    switch (selectFilter) {
+      case "AVAILABLE" : 
+        filterBooks = books.filter(book => book.isBorrow === false);
+        break;
+      case "BORROWED" :
+        filterBooks = books.filter(book => book.isBorrow === true);
+        break;
+      case "ALL" : 
+      default : 
+        filterBooks = books;
+        break;
+    }
+
+    renderBooks(filterBooks);
+  });
+}

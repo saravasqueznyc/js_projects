@@ -18,3 +18,30 @@ Suggested implementation order:
 4) Add edge-case handling and tests.
 */
 
+const BASE_URL = "/api";
+
+export async function request(enpoint, options = {}) {
+  
+  try{  
+      const url = BASE_URL + enpoint;
+
+      const defaultHeaders = {"Content-Type" : "application/json"};
+
+      const confi = {
+        ...options, 
+        headers : {...defaultHeaders, ...options.headers}
+      }
+
+      const response = await fetch(url, confi)
+
+      if(!response.ok){
+        const errorData = await response.json().catch(() => {});
+        throw new Error(errorData.error || `http error:  ${response.status}`);
+      }
+
+      return await response.json();
+  }catch(error){
+      console.error("Api error ", error)
+      throw error;
+  }
+}

@@ -21,6 +21,7 @@ Suggested implementation order:
 import {$, clearHTML} from "../utils/domHelpers.js";
 import { capitalize } from "../utils/formatters.js"; 
 import { renderBookDetails } from "./renderBookDetails.js";
+import { borrowReturnHandler } from "../handlers/bookHandlers.js";
 
 
   export function renderBooks(items){
@@ -54,12 +55,18 @@ import { renderBookDetails } from "./renderBookDetails.js";
       </div>`
 
       boxBooks.appendChild(card);
-      //TODO addEventLis
+
+      const btnAction = card.querySelector(".btn-action");
       const buttonDetails = card.querySelector(".btn-details");
 
       buttonDetails.addEventListener("click", () => {
         renderBookDetails(item);
       });
+
+      btnAction.addEventListener("click", () => {
+        borrowReturnHandler(item);
+      });
+
 
     }
 

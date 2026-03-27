@@ -63,12 +63,12 @@ export async function updateBookStatus(req, res) {
         const idUrl = req.url.split("/")[3];
         let body = "";
 
-        res.on("data", chunk =>{
+        req.on("data", chunk =>{
             body+= chunk;
         });
         console.log(body)
 
-        res.on("end", async () =>{
+        req.on("end", async () =>{
 
             try{        
                 const { isBorrow } = JSON.parse(body)

@@ -17,3 +17,23 @@ Suggested implementation order:
 4) Add edge-case handling and tests.
 */
 
+import { request } from "./apiClient.js";
+
+
+export const bookApi = {
+    getAllBooks(){
+        return request("/books");
+    },
+
+    createBook(bookData){
+        return request("/books", {method: "POST", body: JSON.stringify(bookData)});
+    }, 
+
+    updateStatus(id, isBorrow){
+        return request(`/books/${id}/status`, {method: "PUT", body: JSON.stringify({isBorrow})});
+    },
+
+    searchBooks(book){
+        return request(`/search?q=${encodeURIComponent(book)}`);
+    }
+}
