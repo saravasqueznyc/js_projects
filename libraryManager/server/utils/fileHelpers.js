@@ -10,7 +10,7 @@ export function getContentType(filePath){
             return "text/html";
         case ".js" :
         case ".mjs" : 
-            return "text/js";
+            return "text/javascript";
         case ".css" :
             return "text/css";
         case ".json" : 

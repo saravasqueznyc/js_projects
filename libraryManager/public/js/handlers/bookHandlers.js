@@ -30,7 +30,7 @@ import { $ } from "../utils/domHelpers.js";
 export async function borrowReturnHandler(book){
 
   try{  
-    const newStatus = !book.isBorrrow;
+    const newStatus = !book.isBorrow;
 
     await bookApi.updateStatus(book.id, newStatus);
 

@@ -34,7 +34,7 @@ export class Library {
       if(item.type === "book"){
         return new Book(item);
       } 
-      return new Magazine();
+      return new Magazine(item);
     })
   }
 

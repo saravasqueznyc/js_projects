@@ -43,6 +43,7 @@ try{
 
 export async function searchBooks(req, res) {
     
+
     try {   
         const url = new URL(req.url, `http://${req.headers.host}`);
         const urlQuery = url.searchParams.get("q");
@@ -52,7 +53,7 @@ export async function searchBooks(req, res) {
         const result = await searchExternalBooks(urlQuery)
         sendJSON(res, 200, result);
     } catch(err){
-        sendError(res, 500, "It wasn't possible to get the books");
+        sendError(res, 500, "Unable to get the books from the external api");
     }
 }
 

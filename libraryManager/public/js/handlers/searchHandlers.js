@@ -44,7 +44,7 @@ async function fetchAndRenderResults(query){
       return;
     }
 
-    result.array.forEach(book => {
+    result.forEach(book => {
       const li = document.createElement("li");
       li.style.cursor = "pointer";
       li.style.padding = "8px";
@@ -53,11 +53,11 @@ async function fetchAndRenderResults(query){
       li.addEventListener("click", ()=> {
         renderExternalBookDetails(book);
       })
-
+      
       list.appendChild(li);
     }); 
   }catch(error){
-    li.innerHTML = "<li style='color: red'>Error conecting with the external api</li>";
+    list.innerHTML = "<li style='color: red'>Error conecting with the external api</li>";
   }
 }
 

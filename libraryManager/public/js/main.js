@@ -52,15 +52,15 @@ async function setupStatsDashboard() {
         <span class="stat-label">Ítems Totales</span>
       </div>
       <div class="stat-box">
-        <span class="stat-value">${borrowed}</span>
+        <span class="stat-value">${borrowBooks}</span>
         <span class="stat-label">Prestados</span>
       </div>
       <div class="stat-box">
-        <span class="stat-value">${currentBooks.length - borrowed}</span>
+        <span class="stat-value">${currentBooks.length - borrowBooks}</span>
         <span class="stat-label">Disponibles</span>
       </div>
       <div class="stat-box">
-        <span class="stat-value">${actionsCount}</span>
+        <span class="stat-value">${actionCount}</span>
         <span class="stat-label">Niv. de Actividad</span>
       </div>
     `;
@@ -83,10 +83,8 @@ async function initApp() {
   
   try {
 
-    const booksRawData = bookApi.getAllBooks();
-
+    const booksRawData = await bookApi.getAllBooks();
     store.getLibrary().setItems(booksRawData);
-
     renderBooks(store.getLibrary().getItems());
 
   }catch(error){

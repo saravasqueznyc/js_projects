@@ -48,8 +48,8 @@ import { borrowReturnHandler } from "../handlers/bookHandlers.js";
         <span class="status-badge status-${available}">${capitalize(available)}</span>
         <div>
           <button class="btn-details" data-id="${item.id}">Ver Detalles</button>
-          <button class="btn-action btn-${item.isBorrow ? "secondary" : "primary"}" data-id="${item.id}">
-            ${item.isBorrow ? "return the book" : "ask to borrow"}
+          <button class="btn-action ${item.isBorrow ? 'btn-secondary' : 'btn-primary'}" data-id="${item.id}">
+            ${item.isBorrow ? 'return the book' : 'ask to borrow'}
           </button>
         </div>
       </div>`
